@@ -17,69 +17,70 @@
 ## 3. 目录结构（DDD 分层，文件级细化示例）
 
 ```plaintext
-discord-capture/
+chatmill/
 ├── domain/                        # 领域层：核心业务对象、聚合、服务、事件、仓储接口
 │   ├── entities/                  # 领域实体与聚合根
-│   │   ├── session.py             # Session 聚合根
-│   │   ├── message.py             # Message 实体
-│   │   └── structured_payload.py  # StructuredPayload 抽象及 Task/Checklist/ContentDraft
+│   │   ├── session.py             # Session 聚合根，管理会话全生命周期
+│   │   ├── message.py             # Message 实体，封装单条消息内容
+│   │   └── structured_payload.py  # StructuredPayload 抽象及 Task/Checklist/ContentDraft 实现
 │   ├── events/                    # 领域事件（Event 抽象及子类）
-│   │   ├── base_event.py          # Event 抽象基类
-│   │   ├── supplement_request.py
-│   │   ├── supplement_response.py
-│   │   ├── confirmation.py
-│   │   └── publish_result.py
+│   │   ├── base_event.py          # Event 抽象基类，统一事件通用字段
+│   │   ├── initiate.py            # Initiate 事件，会话启动事件
+│   │   ├── supplement_request.py  # SupplementRequest 事件，请求补充信息
+│   │   ├── supplement_response.py # SupplementResponse 事件，补充信息响应
+│   │   ├── confirmation.py        # Confirmation 事件，确认操作
+│   │   └── publish_result.py      # PublishResult 事件，发布结果反馈
 │   ├── services/                  # 领域服务
-│   │   ├── session_service.py
-│   │   ├── cml_event_relay_service.py
-│   │   └── message_fetcher_service.py
+│   │   ├── session_service.py     # SessionService，会话业务规则与状态流转
+│   │   ├── cml_event_relay_service.py # CmlEventRelayService，CML事件流转与分发
+│   │   └── message_fetcher_service.py # MessageFetcherService，消息抓取与校验
 │   ├── repositories/              # 仓储接口
-│   │   ├── session_repository.py
-│   │   ├── structured_payload_repository.py
-│   │   └── message_repository.py
+│   │   ├── session_repository.py  # SessionRepository，会话持久化接口
+│   │   ├── structured_payload_repository.py # StructuredPayloadRepository，结构化负载持久化接口
+│   │   └── message_repository.py  # MessageRepository，消息持久化接口
 │   └── value_objects/             # 值对象
-│       └── message_range.py
+│       └── message_range.py       # MessageRange，消息区间值对象
 │
 ├── application/                   # 应用层：用例/流程编排、DTO、应用服务
 │   ├── services/                  # 应用服务
-│   │   └── command_service.py
+│   │   └── command_service.py     # CommandService，用例编排与流程控制
 │   ├── handlers/                  # 命令/事件处理器
-│   │   └── session_handler.py
+│   │   └── session_handler.py     # SessionHandler，处理会话相关命令/事件
 │   ├── dtos/                      # 数据传输对象
-│   │   └── session_dto.py
+│   │   └── session_dto.py         # SessionDTO，会话数据传输结构
 │   └── strategies/                # 策略分发/注册机制
-│       └── payload_strategy.py
+│       └── payload_strategy.py    # PayloadStrategy，基于 agent 字段的策略分发
 │
 ├── infrastructure/                # 基础设施层：持久化、平台适配、外部集成
 │   ├── repositories/              # 仓储实现
-│   │   ├── mongo_session_repository.py
-│   │   ├── mongo_structured_payload_repository.py
-│   │   └── mongo_message_repository.py
+│   │   ├── mongo_session_repository.py           # MongoDB SessionRepository 实现
+│   │   ├── mongo_structured_payload_repository.py # MongoDB StructuredPayloadRepository 实现
+│   │   └── mongo_message_repository.py           # MongoDB MessageRepository 实现
 │   ├── platform/                  # 平台适配器
-│   │   ├── discord_client.py
-│   │   └── discord_webhook.py
+│   │   ├── discord_client.py      # Discord API 封装
+│   │   └── discord_webhook.py     # Discord Webhook 适配
 │   ├── webhook/                   # Webhook 适配
-│   │   └── webhook_handler.py
+│   │   └── webhook_handler.py     # WebhookHandler，处理外部 webhook 回调
 │   ├── persistence/               # 数据库连接、模型
-│   │   └── mongodb.py
+│   │   └── mongodb.py             # MongoDB 连接与模型定义
 │   └── config/                    # 配置与环境变量
-│       └── settings.py
+│       └── settings.py            # Settings，环境变量与配置加载
 │
 ├── interfaces/                    # 接口层：API、命令入口、webhook
 │   ├── api/                       # FastAPI 路由
-│   │   └── routes.py
+│   │   └── routes.py              # API 路由定义
 │   ├── commands/                  # 命令解析
-│   │   └── discord_commands.py
+│   │   └── discord_commands.py    # Discord 命令解析与适配
 │   ├── webhook/                   # Webhook 入口
-│   │   └── discord_webhook_handler.py
+│   │   └── discord_webhook_handler.py # Discord Webhook 入口处理
 │   └── schemas/                   # API/消息体 schema
-│       └── session_schema.py
+│       └── session_schema.py      # SessionSchema，API 数据结构定义
 │
 ├── shared/                        # 跨层通用工具、CML协议、异常、日志
 │   ├── cml/                       # CML 协议定义与解析
-│   │   └── cml_protocol.py
-│   ├── exceptions.py
-│   └── logger.py
+│   │   └── cml_protocol.py        # CML 协议结构、序列化/反序列化
+│   ├── exceptions.py              # 通用异常定义
+│   └── logger.py                  # 日志工具
 │
 ├── main.py                        # 应用入口，依赖注入与启动
 └── README.md                      # 项目说明文档
@@ -87,7 +88,7 @@ discord-capture/
 
 ### 结构说明与类图映射
 - `domain/entities/structured_payload.py`：定义 StructuredPayload 抽象及 Task、Checklist、ContentDraft 实现
-- `domain/events/`：所有 Event 及其子类（SupplementRequest、SupplementResponse、Confirmation、PublishResult）
+- `domain/events/`：所有 Event 及其子类（Initiate、SupplementRequest、SupplementResponse、Confirmation、PublishResult）
 - `domain/services/`：SessionService、CmlEventRelayService、MessageFetcherService
 - `application/services/command_service.py`：CommandService，编排用例
 - `application/strategies/payload_strategy.py`：基于 agent 字段的策略分发机制

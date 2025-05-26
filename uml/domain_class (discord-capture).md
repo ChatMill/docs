@@ -73,6 +73,10 @@ classDiagram
       +payload: StructuredPayload
       +history: List[str]
     }
+
+    class Initiate {
+      // 无特有字段，全部继承自 Event
+    }
   end
 
   %% Application Layer
@@ -291,6 +295,9 @@ classDiagram
   Event <|-- SupplementResponse
   Event <|-- Confirmation
   Event <|-- PublishResult
+  Event <|-- Initiate
+
+  %% Initiate：会话启动事件，继承 Event，无特有字段。
 ```
 
 领域模型说明：
