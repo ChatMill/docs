@@ -17,7 +17,7 @@
 ## 3. 目录结构（DDD 分层，文件级细化示例）
 
 ```plaintext
-chatmill/
+discord-capture/
 ├── domain/                        # 领域层：核心业务对象、聚合、服务、事件、仓储接口
 │   ├── entities/                  # 领域实体与聚合根
 │   │   ├── session.py             # Session 聚合根，管理会话全生命周期
