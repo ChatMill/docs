@@ -1,4 +1,4 @@
-# Miss Spec 架构分层与开发约定
+# discord-capture 架构分层与开发约定
 
 ## 1. 组件图与分层依赖
 

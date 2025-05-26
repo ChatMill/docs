@@ -87,7 +87,7 @@ graph TD
 
 - 欢迎提交 PR、issue 或参与文档完善
 - 贡献指南见 [developer/CONTRIBUTING.md](developer/CONTRIBUTING.md)
-- 架构与领域建模详见 [developer/ARCHITECTURE.md](developer/ARCHITECTURE.md)
+- 架构与领域建模详见 [developer/ARCHITECTURE.md](developer/ARCHITECTURE(discord-capture).md)
 
 ---
 

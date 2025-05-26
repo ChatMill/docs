@@ -76,7 +76,7 @@
 ---
 
 ## 4. 相关文档
-- [开发者指南 DEV_GUIDE.md](../developer/ARCHITECTURE.md)
+- [开发者指南 DEV_GUIDE.md](../developer/ARCHITECTURE(discord-capture).md)
 - [领域职责说明 DOMAIN.md](../developer/DOMAIN.md)
 
 # 在命令参数、示例、说明等涉及 session_id、频道、服务器等处补充：

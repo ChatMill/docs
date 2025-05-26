@@ -145,7 +145,7 @@ except jwt.InvalidTokenError:
 
 - [CML 协议与事件类型](./CML_PROTOCOL.md)
 - [平台适配与配置](../deployment/PLATFORM_ADAPTERS.md)
-- [架构与分层设计](./ARCHITECTURE.md)
+- [架构与分层设计](./ARCHITECTURE(discord-capture).md)
 
 ---
 
